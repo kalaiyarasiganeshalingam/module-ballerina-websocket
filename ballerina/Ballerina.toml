@@ -87,8 +87,8 @@ path = "./lib/netty-handler-proxy-4.1.130.Final.jar"
 [[platform.java21.dependency]]
 groupId = "at.yawk.lz4"
 artifactId = "lz4-java"
-version = "@lz4.version@"
-path = "./lib/lz4-java-@lz4.version@.jar"
+version = "1.10.1"
+path = "./lib/lz4-java-1.10.1.jar"
 
 [[platform.java21.dependency]]
 path = "../test-utils/build/libs/websocket-test-utils-2.14.3-SNAPSHOT.jar"
