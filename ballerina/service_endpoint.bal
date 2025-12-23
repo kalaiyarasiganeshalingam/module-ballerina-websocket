@@ -129,11 +129,6 @@ public type ListenerSecureSocket record {|
     *http:ListenerSecureSocket;
 |};
 
-# Provides settings related to server socket configuration.
-public type ServerSocketConfig record {|
-    *http:ServerSocketConfig;
-|};
-
 # Returns a random UUID string.
 #
 # + return - The random string

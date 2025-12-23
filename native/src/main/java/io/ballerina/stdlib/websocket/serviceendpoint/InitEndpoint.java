@@ -54,6 +54,10 @@ import static io.ballerina.stdlib.http.transport.contract.Constants.HTTP_1_1_VER
  *
  */
 public class InitEndpoint extends AbstractWebsocketNativeFunction {
+
+    private static final int BUFFER_SIZE = 1048576;
+    private static final int BACK_LOG = 100;
+
     public static Object initEndpoint(BObject serviceEndpoint) {
         ServerConnector httpServerConnector;
         try {
@@ -144,9 +148,9 @@ public class InitEndpoint extends AbstractWebsocketNativeFunction {
     }
 
     private static void setSocketConfig(BMap endpointConfig, ListenerConfiguration listenerConfiguration) {
-        listenerConfiguration.setReceiveBufferSize(1048576);
-        listenerConfiguration.setSendBufferSize(1048576);
-        listenerConfiguration.setSoBackLog(100);
+        listenerConfiguration.setReceiveBufferSize(BUFFER_SIZE);
+        listenerConfiguration.setSendBufferSize(BUFFER_SIZE);
+        listenerConfiguration.setSoBackLog(BACK_LOG);
     }
 
     private static ListenerConfiguration setSslConfig(BMap<BString, Object> secureSocket,
