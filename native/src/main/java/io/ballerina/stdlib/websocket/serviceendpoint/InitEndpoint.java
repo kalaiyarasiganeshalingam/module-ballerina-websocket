@@ -332,25 +332,19 @@ public class InitEndpoint extends AbstractWebsocketNativeFunction {
         return map.containsKey(key) ? ((BDecimal) map.get(key)).intValue() : 0L;
     }
 
-    private static int getBufferSize(Object bufferSize, String bufferName) {
+    private static int getBufferSize(Object bufferSize, String configName) {
         if (bufferSize == null) {
-            throw new BallerinaConnectorException(
-                    bufferName + " must be specified."
-            );
+            throw new BallerinaConnectorException(configName + " must be specified.");
         }
         int size;
         try {
             size = Integer.parseInt(bufferSize.toString());
         } catch (NumberFormatException e) {
-            throw new BallerinaConnectorException(
-                    bufferName + " must be a valid integer", e
-            );
+            throw new BallerinaConnectorException(configName + " must be a valid integer", e);
         }
 
         if (size <= 0) {
-            throw new BallerinaConnectorException(
-                    bufferName + " must be greater than 0."
-            );
+            throw new BallerinaConnectorException(configName + " must be greater than 0.");
         }
         return size;
     }
