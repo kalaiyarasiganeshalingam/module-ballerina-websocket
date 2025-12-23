@@ -103,7 +103,6 @@ public class Listener {
 # + server - The server name which should appear as a response header
 # + webSocketCompressionEnabled - Enable support for compression in WebSocket
 # + requestLimits - Configurations associated with inbound request size limits
-# + socketConfig - Provides settings related to server socket configuration
 public type ListenerConfiguration record {|
     string host = "0.0.0.0";
     ListenerHttp1Settings http1Settings = {};
@@ -112,7 +111,6 @@ public type ListenerConfiguration record {|
     string? server = ();
     boolean webSocketCompressionEnabled = true;
     RequestLimitConfigs requestLimits = {};
-    ServerSocketConfig socketConfig = {};
 |};
 
 # Provides settings related to HTTP/1.x protocol.
