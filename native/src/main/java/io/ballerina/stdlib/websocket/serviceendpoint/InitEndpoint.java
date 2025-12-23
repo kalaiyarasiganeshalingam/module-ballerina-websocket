@@ -135,10 +135,23 @@ public class InitEndpoint extends AbstractWebsocketNativeFunction {
         }
 
         if (sslConfig != null) {
-            return setSslConfig(sslConfig, listenerConfiguration);
+            setSslConfig(sslConfig, listenerConfiguration);
         }
 
+        setSocketConfig(endpointConfig, listenerConfiguration);
+
         return listenerConfiguration;
+    }
+
+    private static void setSocketConfig(BMap endpointConfig, ListenerConfiguration listenerConfiguration) {
+        BMap<BString, Object> socketConfig = (BMap<BString, Object>) endpointConfig
+                .getMapValue(HttpConstants.SOCKET_CONFIG);
+        listenerConfiguration.setReceiveBufferSize(getBufferSize(socketConfig.get(
+                HttpConstants.SOCKET_CONFIG_RECEIVE_BUFFER_SIZE), "Receive buffer size"));
+        listenerConfiguration.setSendBufferSize(getBufferSize(socketConfig.get(
+                HttpConstants.SOCKET_CONFIG_SEND_BUFFER_SIZE), "Send buffer size"));
+        listenerConfiguration.setSoBackLog(getBufferSize(socketConfig.get(
+                HttpConstants.SOCKET_CONFIG_SO_BACKLOG), "Back log"));
     }
 
     private static ListenerConfiguration setSslConfig(BMap<BString, Object> secureSocket,
@@ -317,6 +330,29 @@ public class InitEndpoint extends AbstractWebsocketNativeFunction {
 
     private static long getLongValueOrDefault(BMap<BString, Object> map, BString key) {
         return map.containsKey(key) ? ((BDecimal) map.get(key)).intValue() : 0L;
+    }
+
+    private static int getBufferSize(Object bufferSize, String bufferName) {
+        if (bufferSize == null) {
+            throw new BallerinaConnectorException(
+                    bufferName + " must be specified."
+            );
+        }
+        int size;
+        try {
+            size = Integer.parseInt(bufferSize.toString());
+        } catch (NumberFormatException e) {
+            throw new BallerinaConnectorException(
+                    bufferName + " must be a valid integer", e
+            );
+        }
+
+        if (size <= 0) {
+            throw new BallerinaConnectorException(
+                    bufferName + " must be greater than 0."
+            );
+        }
+        return size;
     }
 
     private InitEndpoint() {}
